@@ -38,10 +38,10 @@ export default function Navbar(props) {
           {({ open }) => (
             <>
               <div className="flex flex-wrap justify-between md:gap-10 md:flex-nowrap">
-                <div className="flex-col items-center justify-start order-1 hidden w-full md:flex md:flex-row md:justify-end md:w-auto md:order-none md:flex-1">
+                <div className="flex-col items-center justify-start order-1 hidden w-full md:flex md:flex-row md:w-auto md:order-none md:flex-1">
                   {leftmenu.map((item, index) => (
                     <Link href={item.href} key={index} legacyBehavior>
-                      <a className={`px-5 py-2 text-sm font-medium  dark:text-gray-400 hover:text-blue-500 ${currentRoute === item.href 
+                      <a className={`pr-5 py-2 text-sm font-medium  dark:text-gray-400 hover:text-blue-500 ${currentRoute === item.href 
                     ? "text-blue-500" 
                     : "text-gray-500"}`} >
                         {item.label}
@@ -75,15 +75,9 @@ export default function Navbar(props) {
                 </div>
 
                 <div className="flex-col items-center justify-start order-2 hidden w-full md:flex md:flex-row md:w-auto md:flex-1 md:order-none">
-                        {/* <SliceZone
-                          slices={links?.results[0].data.slices}
-                          components={
-                            {"nav_item_link":  RightMenuLinkSlice}
-                          }
-                        ></SliceZone> */}
                         {rightmenu.map((item, index) => (
                     <Link href={item.href} key={index} legacyBehavior>
-                      <a className={`px-5 py-2 text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-blue-500 ${currentRoute === item.href 
+                      <a className={`pr-5 py-2 text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-blue-500 ${currentRoute === item.href 
                     ? "text-blue-500" 
                     : "text-gray-500"}`} >
                         {item.label}
@@ -97,7 +91,7 @@ export default function Navbar(props) {
                   {mobilemenu.map((item, index) => (
                     <Link href={item.href} key={index} legacyBehavior>
                       <a
-                        className={`px-5 py-2 text-sm font-medium dark:text-gray-400 hover:text-blue-500 ${currentRoute === item.href 
+                        className={`pr-5 py-2 text-sm font-medium dark:text-gray-400 hover:text-blue-500 ${currentRoute === item.href 
                           ? "text-blue-500" 
                           : "text-gray-600"}`}
                         target={item.external ? "_blank" : ""}

@@ -1,14 +1,10 @@
-import { Text } from "@/components/atoms/Text";
 import Container from "@/components/container";
-import Logo from "@/components/Icons/Logo";
-import Contact from "@/components/templates/contact";
 import client from "libs/contentful";
 import {  Entry } from 'contentful';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 import { format } from "date-fns";
 
 import Image from "next/image";
-import Link from "next/link";
 
 interface ImageFields {
     title: string;

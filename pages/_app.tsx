@@ -8,14 +8,14 @@ export default function MyApp({ Component, pageProps }: AppProps) {
   return(
     <>
       <Head>
-        <title>Katelyn Nee</title>
+        <title>Photo Gallery Demo</title>
         <meta
           property="og:image"
-          content="https://katelynnee.vercel.app/og-image.png"
+          content="https://photo-gallery-12.vercel.app/og-image.png"
         />
         <meta
           name="twitter:image"
-          content="https://katelynnee.vercel.app/og-image.png"
+          content="https://photo-gallery-12.vercel.app/og-image.png"
         />
       </Head>
       <Navbar />

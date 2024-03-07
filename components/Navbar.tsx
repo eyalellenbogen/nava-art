@@ -52,7 +52,7 @@ export default function Navbar(props) {
                 <div className="flex items-center justify-between w-full md:w-auto">
                   <Link href="/" legacyBehavior>
                     <a className="w-38 dark:hidden flex items-center">
-                          <Heading> Katelyn Nee </Heading>
+                          <Heading> Photo Gallery </Heading>
                     </a>
                   </Link>
                   <Link href="/" legacyBehavior>

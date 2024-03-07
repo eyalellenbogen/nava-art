@@ -37,11 +37,11 @@ const Home: NextPage = ({ portfolioPage }: portfolioPageProps) => {
       <Head>
         <meta
           property="og:image"
-          content="https://katelynnee.vercel.app/og-image.png"
+          content="https://photo-gallery-12.vercel.app/og-image.png"
         />
         <meta
           name="twitter:image"
-          content="https://katelynnee.vercel.app/og-image.png"
+          content="https://photo-gallery-12.vercel.app/og-image.png"
         />
       </Head>
       <main>

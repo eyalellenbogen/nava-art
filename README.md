@@ -14,7 +14,7 @@ This website was based on the image gallery template from [Vercel](https://verce
 
 ### :bulb: Live
 
-The demo is availible at: https://katelynnee.vercel.app/
+The demo is availible at: https://photo-gallery-12.vercel.app/
 
  ### :computer: Techs:
 

@@ -7,13 +7,13 @@ import { useEffect, useRef } from 'react'
 import Bridge from '@/components/Icons/Bridge'
 import Logo from '@/components/Icons/Logo'
 import Modal from '@/components/Modal'
-import getBase64ImageUrl from '@/utils/generateBlurPlaceholder'
 import type { ImageProps } from '@/utils/types'
 import { useLastViewedPhoto } from '@/utils/useLastViewedPhoto'
 import client from 'libs/contentful'
 import {  Entry } from 'contentful';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 import { getHashString } from '@/utils/getHashString';
+import { getBlurData } from '@/utils/blur-data-generator'
 
 interface ProjectSlugProps {
     title: string;
@@ -99,7 +99,7 @@ const Project: NextPage = ({ images, entry }: ProjectSlugProps) => {
               // className="after:content group relative mb-5 block w-full cursor-zoom-in after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:shadow-highlight"
             >
               <Image
-                alt="Next.js Conf photo"
+                alt="Gallery photo"
                 className="transform rounded-lg brightness-90 transition will-change-auto group-hover:brightness-110"
                 style={{ transform: 'translate3d(0, 0, 0)' }}
                 placeholder="blur"
@@ -150,14 +150,18 @@ export async function getStaticProps({params}) {
     i++
   }
 
-  const blurImagePromises = project_images.results.map((image: ImageProps) => {
-    return getBase64ImageUrl(image)
+  const blurImagePromises = project_images.results.map(async (image: ImageProps) => {
+    const url = `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/f_jpg,w_8,q_70/${image.public_id}.${image.format}`
+    const { base64 } = await getBlurData(url)
+    return base64
   })
+
   const imagesWithBlurDataUrls = await Promise.all(blurImagePromises)
 
   for (let i = 0; i < reducedResults.length; i++) {
     reducedResults[i].blurDataUrl = imagesWithBlurDataUrls[i]
   }
+  console.log(reducedResults)
   return {
     props: {
       images: reducedResults,

@@ -8,6 +8,7 @@ import fetchSlugs from '@/utils/fetchSlugs'
 import type { ImageProps } from '@/utils/types'
 import client from 'libs/contentful'
 import { getHashString } from '@/utils/getHashString'
+import { getBlurData } from '@/utils/blur-data-generator'
 
 interface PhotoIdProps {
   currentPhoto: ImageProps;
@@ -42,25 +43,6 @@ const PhotoId: NextPage<PhotoIdProps> = ({ currentPhoto }) => {
 export default PhotoId
 
 
-// export async function getStaticPaths() {
-//   await avoidRateLimit()
-//   const entry: any = await client.getEntry('5LfwKllpyXoFuxsbyBaYvC');
-
-//   const fullPaths = [];
-
-//   entry.fields.projects.forEach(project => {
-//     const numAssets = project.fields.assets.length;
-//     for (let i = 0; i < numAssets; i++) {
-//       fullPaths.push({ params: { slug: project.sys.id, photoId: i.toString() } });
-//     }
-//   });
-
-//   return {
-//     paths: fullPaths,
-//     fallback: true,
-//   };
-// }
-
 export async function getStaticPaths() {
   await avoidRateLimit()
   const entry: any = await client.getEntry('5LfwKllpyXoFuxsbyBaYvC');
@@ -90,7 +72,9 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const { results: images } = await getResults({ slug });
 
   const currentPhoto = images.find((img) => img.id == photoId)
-  currentPhoto.blurDataUrl = await getBase64ImageUrl(currentPhoto);
+  const url = `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/f_jpg,w_8,q_70/${currentPhoto.public_id}.${currentPhoto.format}`
+  const { base64 } = await getBlurData(url)
+  currentPhoto.blurDataUrl = base64
 
   return {
     props: {

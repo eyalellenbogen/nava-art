@@ -15,7 +15,7 @@ class MyDocument extends Document {
             property="og:description"
             content="Explore a photography gallery"
           />
-          <meta property="og:title" content="a photography gallery" />
+          <meta property="og:title" content="Luma's gallery" />
           <meta name="twitter:card" content="summary_large_image" />
           <meta name="twitter:title" content="a photography gallery" />
           <meta

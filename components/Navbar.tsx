@@ -14,7 +14,7 @@ export default function Navbar(props) {
 
   const leftmenu = [
     {
-      label: "Portfolio",
+      label: "Photos",
       href: "/",
       external: false
     },
@@ -50,16 +50,6 @@ export default function Navbar(props) {
                   ))}
                 </div>
                 <div className="flex items-center justify-between w-full md:w-auto">
-                  <Link href="/" legacyBehavior>
-                    <a className="w-38 dark:hidden flex items-center">
-                          <Heading> Photo Gallery </Heading>
-                    </a>
-                  </Link>
-                  <Link href="/" legacyBehavior>
-                    <a className="hidden w-38 dark:block">
-                          Stablo
-                    </a>
-                  </Link>
                   <Disclosure.Button
                     aria-label="Toggle Menu"
                     className="px-2 py-1 ml-auto text-gray-500 rounded-md md:hidden focus:text-blue-500 focus:outline-none dark:text-gray-300 ">

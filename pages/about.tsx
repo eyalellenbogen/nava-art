@@ -90,7 +90,7 @@ export default function About({ about }: aboutPageProps) {
         <div className="mx-auto prose text-center dark:prose-invert mt-14 leading-loose">
           <small className="text-gray-500"><em>Updated {about.updated_at}</em></small>
         </div>
-        <Contact contacts={about.contact} siteconfig={''}/>
+        {/* <Contact contacts={about.contact} siteconfig={''}/> */}
       </Container>
     </>
 

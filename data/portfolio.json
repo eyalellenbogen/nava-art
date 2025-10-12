@@ -1,0 +1,137 @@
+{
+  "portfolioPage": {
+    "heading": "Nava Art Gallery",
+    "description": "A curated collection of photography projects showcasing different themes and styles."
+  },
+  "projects": [
+    {
+      "id": "nature-photography",
+      "title": "Nature Photography",
+      "smallDescription": "Capturing the beauty of natural landscapes and wildlife",
+      "fullDescription": "This collection features stunning nature photography from various locations around the world. From misty mountain peaks to serene forest scenes, each image tells a story of the natural world's incredible beauty and diversity.",
+      "images": [
+        {
+          "id": 1,
+          "filename": "nature-1.jpg",
+          "width": 1920,
+          "height": 1280,
+          "alt": "Mountain landscape at sunrise"
+        },
+        {
+          "id": 2,
+          "filename": "nature-2.jpg",
+          "width": 1920,
+          "height": 1280,
+          "alt": "Forest path with sunlight"
+        },
+        {
+          "id": 3,
+          "filename": "nature-3.jpg",
+          "width": 1920,
+          "height": 1280,
+          "alt": "Lake reflection in autumn"
+        },
+        {
+          "id": 4,
+          "filename": "nature-4.jpg",
+          "width": 1280,
+          "height": 1920,
+          "alt": "Waterfall in tropical forest"
+        },
+        {
+          "id": 5,
+          "filename": "nature-5.jpg",
+          "width": 1920,
+          "height": 1280,
+          "alt": "Desert dunes at sunset"
+        }
+      ]
+    },
+    {
+      "id": "urban-scenes",
+      "title": "Urban Scenes",
+      "smallDescription": "Street photography and city life moments",
+      "fullDescription": "Urban photography that captures the energy and rhythm of city life. These images explore the interplay between architecture, light, and human activity in metropolitan environments.",
+      "images": [
+        {
+          "id": 6,
+          "filename": "urban-1.jpg",
+          "width": 1920,
+          "height": 1280,
+          "alt": "City skyline at night"
+        },
+        {
+          "id": 7,
+          "filename": "urban-2.jpg",
+          "width": 1280,
+          "height": 1920,
+          "alt": "Street art on brick wall"
+        },
+        {
+          "id": 8,
+          "filename": "urban-3.jpg",
+          "width": 1920,
+          "height": 1280,
+          "alt": "Busy intersection at rush hour"
+        },
+        {
+          "id": 9,
+          "filename": "urban-4.jpg",
+          "width": 1920,
+          "height": 1280,
+          "alt": "Modern architecture details"
+        }
+      ]
+    },
+    {
+      "id": "portraits",
+      "title": "Portrait Collection",
+      "smallDescription": "Intimate portraits capturing human expressions and emotions",
+      "fullDescription": "A diverse collection of portrait photography that explores the depth of human character and emotion. Each portrait aims to reveal something unique about the subject's personality and story.",
+      "images": [
+        {
+          "id": 10,
+          "filename": "portrait-1.jpg",
+          "width": 1280,
+          "height": 1920,
+          "alt": "Black and white portrait"
+        },
+        {
+          "id": 11,
+          "filename": "portrait-2.jpg",
+          "width": 1280,
+          "height": 1920,
+          "alt": "Candid smile portrait"
+        },
+        {
+          "id": 12,
+          "filename": "portrait-3.jpg",
+          "width": 1920,
+          "height": 1280,
+          "alt": "Environmental portrait"
+        },
+        {
+          "id": 13,
+          "filename": "portrait-4.jpg",
+          "width": 1280,
+          "height": 1920,
+          "alt": "Studio portrait with dramatic lighting"
+        },
+        {
+          "id": 14,
+          "filename": "portrait-5.jpg",
+          "width": 1280,
+          "height": 1920,
+          "alt": "Child portrait with natural light"
+        },
+        {
+          "id": 15,
+          "filename": "portrait-6.jpg",
+          "width": 1920,
+          "height": 1280,
+          "alt": "Group portrait outdoors"
+        }
+      ]
+    }
+  ]
+}

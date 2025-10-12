@@ -71,11 +71,7 @@ export default function SharedModal({
                 className="absolute"
               >
                 <Image
-                  src={`https://res.cloudinary.com/${
-                    process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME
-                  }/image/upload/c_scale,${navigation ? 'w_1280' : 'w_1920'}/${
-                    currentImage.public_id
-                  }.${currentImage.format}`}
+                  src={`/images/${currentImage.filename}`}
                   width={navigation ? 1000 : 1000} // Adjusted width
                   height={navigation ? 733 : 673} // Adjusted height
                   priority
@@ -117,7 +113,7 @@ export default function SharedModal({
               <div className="absolute right-0 top-0 flex items-center gap-2 p-3 text-gray-200">
                 {navigation ? (
                   <a
-                    href={`https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/${currentImage.public_id}.${currentImage.format}`}
+                    href={`/images/${currentImage.filename}`}
                     className="rounded-full bg-black/50 p-2 text-gray-200/75 backdrop-blur-lg transition hover:bg-black/75 hover:text-gray-200"
                     target="_blank"
                     title="Open fullsize version"
@@ -139,8 +135,8 @@ export default function SharedModal({
                 {/* <button
                   onClick={() =>
                     downloadPhoto(
-                      `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/${currentImage.public_id}.${currentImage.format}`,
-                     `${currentImage.public_id}`
+                      `/images/${currentImage.filename}`,
+                     `${currentImage.filename}`
                     )
                   }
                   className="rounded-full bg-black/50 p-2 text-gray-200/75 backdrop-blur-lg transition hover:bg-black/75 hover:text-gray-200"
@@ -171,7 +167,7 @@ export default function SharedModal({
                 className="mx-auto mb-6 mt-6 flex aspect-[3/2] h-14"
               >
                 <AnimatePresence initial={false}>
-                  {filteredImages.map(({ public_id, format, id }) => (
+                  {filteredImages.map(({ filename, id }) => (
                     <motion.button
                       initial={{
                         width: "0%",
@@ -202,7 +198,7 @@ export default function SharedModal({
                             ? "brightness-110 hover:brightness-110"
                             : "brightness-50 contrast-125 hover:brightness-75"
                         } h-full transform object-cover transition`}
-                        src={`https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/c_scale,w_180/${public_id}.${format}`}
+                        src={`/images/${filename}`}
                       />
                     </motion.button>
                   ))}

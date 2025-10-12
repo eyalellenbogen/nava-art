@@ -9,37 +9,16 @@ import Logo from '@/components/Icons/Logo'
 import Modal from '@/components/Modal'
 import type { ImageProps } from '@/utils/types'
 import { useLastViewedPhoto } from '@/utils/useLastViewedPhoto'
-import client from 'libs/contentful'
-import {  Entry } from 'contentful';
-import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
-import { getHashString } from '@/utils/getHashString';
-import { getBlurData } from '@/utils/blur-data-generator'
+import { getProjectData, getAllProjectIds, ProjectData } from '../../libs/static-data'
+import { getHashString } from '@/utils/getHashString'
 
 interface ProjectSlugProps {
-    title: string;
-    description: string;
-    size?: 'sm' | 'md' | 'lg';
-    asChild?: boolean;
-    name: string;
-    images?: ImageProps[];
-    entry: any,
-    fullDescription: any;
-    smallDescription: string;
+  images: ImageProps[];
+  project: ProjectData;
 }
 
-interface AboutPageFields {
-  heading: string;
-  description: string;
-  smallDescription: string;
-  fullDescription: any;
-  assets: any
-  }
-    
-    
-interface MyEntry extends Entry<AboutPageFields>{};
 
-
-const Project: NextPage = ({ images, entry }: ProjectSlugProps) => {
+const Project: NextPage<ProjectSlugProps> = ({ images, project }) => {
   const router = useRouter()
   const { photoId, slug } = router.query
   const [lastViewedPhoto, setLastViewedPhoto] = useLastViewedPhoto()
@@ -69,13 +48,13 @@ const Project: NextPage = ({ images, entry }: ProjectSlugProps) => {
         <div className="columns-1 gap-4 sm:columns-2 xl:columns-3 2xl:columns-4">
           <div className="border after:content relative mb-5 flex min-h-[429px] flex-col items-center justify-center gap-4 overflow-hidden rounded-lg px-6 pb-16 pt-64 text-center text-gray-800  after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:shadow-highlight lg:pt-0 shadow-xl transition-shadow hover:shadow-lg sm:p-6 lg:p-">
             <h1 className="mt-8 mb-4 text-base font-bold uppercase tracking-widest">
-                {entry.title}
+                {project.title}
             </h1>
             <p className="max-w-[40ch] text-gray-800/75 sm:max-w-[32ch]">
-                {entry.smallDescription}
+                {project.smallDescription}
             </p>
-            <div>
-              {documentToReactComponents(entry.fullDescription)}
+            <div className="max-w-[40ch] text-gray-800/75 sm:max-w-[32ch]">
+              <p>{project.fullDescription}</p>
             </div>
             <Link
               className="pointer z-10 mt-6 rounded-lg border bg-black px-3 py-2 text-sm font-semibold text-white transition hover:bg-gray-800 md:mt-4"
@@ -84,27 +63,26 @@ const Project: NextPage = ({ images, entry }: ProjectSlugProps) => {
               Explore more projects
             </Link>
           </div>
-          {images.map(({ id, public_id, format, blurDataUrl }) => (
+          {images.map((image) => (
             <Link
-              key={id}
+              key={image.id}
               href={{
                 pathname: `/${slug}`,
-                query: {photoId: getHashString(public_id)},
+                query: {photoId: image.id.toString()},
               }
               }
-              as={`/${slug}/p/${getHashString(public_id)}`}
-              ref={id === Number(lastViewedPhoto) ? lastViewedPhotoRef : null}
+              as={`/${slug}/p/${image.id}`}
+              ref={image.id === Number(lastViewedPhoto) ? lastViewedPhotoRef : null}
               shallow
               className="after:content group relative mb-5 block w-full cursor-zoom-in after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:shadow-highlight"
-              // className="after:content group relative mb-5 block w-full cursor-zoom-in after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:shadow-highlight"
             >
               <Image
-                alt="Gallery photo"
+                alt={image.alt}
                 className="transform rounded-lg brightness-90 transition will-change-auto group-hover:brightness-110"
                 style={{ transform: 'translate3d(0, 0, 0)' }}
                 placeholder="blur"
-                blurDataURL={blurDataUrl}
-                src={`https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/c_scale,w_720/${public_id}.${format}`}
+                blurDataURL={image.blurDataUrl || "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWEREiMxUf/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="}
+                src={`/images/${image.filename}`}
                 width={720}
                 height={480}
                 sizes="(max-width: 640px) 100vw,
@@ -122,79 +100,39 @@ const Project: NextPage = ({ images, entry }: ProjectSlugProps) => {
 
 export default Project
 
-
-export async function getStaticProps({params}) {
+export async function getStaticProps({ params }) {
   const { slug } = params;
-  await avoidRateLimit();
-  const entry: MyEntry = await client.getEntry(slug);
-  const project_images = {
-    results: entry.fields.assets.map(asset => {
-      return {
-        height: asset.height,
-        width: asset.width,
-        public_id: asset.public_id,
-        format: asset.format,
-      }
-    })}
-  let reducedResults: ImageProps[] = []
-
-  let i = 0
-  for (let result of project_images.results) {
-    reducedResults.push({
-      id: i,
-      height: result.height,
-      width: result.width,
-      public_id: result.public_id,
-      format: result.format,
-    })
-    i++
+  const project = getProjectData(slug);
+  
+  if (!project) {
+    return {
+      notFound: true,
+    }
   }
 
-  const blurImagePromises = project_images.results.map(async (image: ImageProps) => {
-    const url = `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/f_jpg,w_8,q_70/${image.public_id}.${image.format}`
-    const { base64 } = await getBlurData(url)
-    return base64
-  })
+  // Convert our static data to match the expected ImageProps interface
+  const images: ImageProps[] = project.images.map(image => ({
+    id: image.id,
+    height: image.height,
+    width: image.width,
+    filename: image.filename,
+    alt: image.alt,
+    blurDataUrl: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWEREiMxUf/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
+  }));
 
-  const imagesWithBlurDataUrls = await Promise.all(blurImagePromises)
-
-  for (let i = 0; i < reducedResults.length; i++) {
-    reducedResults[i].blurDataUrl = imagesWithBlurDataUrls[i]
-  }
-  console.log(reducedResults)
   return {
     props: {
-      images: reducedResults,
-      entry: entry.fields
+      images,
+      project
     },
   }
 }
 
-
 export async function getStaticPaths() {
-  await avoidRateLimit();
-  const entry: any = await client.getEntry('5LfwKllpyXoFuxsbyBaYvC');
-
-  let fullPaths = [];
-
-  entry.fields.projects.map(project => {
-    fullPaths.push({ params: { slug: project.sys.id } })
-  })
-
+  const paths = getAllProjectIds();
 
   return {
-    paths: fullPaths,
+    paths,
     fallback: false,
   }
-}
-
-
-export function avoidRateLimit(delay = 500) {
-  if (!process.env.IS_BUILD) {
-    return
-  }
-
-  return new Promise((resolve) => {
-    setTimeout(resolve, delay)
-  })
 }

@@ -3,8 +3,8 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import { Heading } from '@/components/atoms/Heading'
 import { Text } from '@/components/atoms/Text'
-import { getSculptures } from '../libs/cloudinary-data'
 import type { CloudinaryImage } from '../libs/cloudinary-data'
+import { getSculptures } from '../libs/cloudinary-data'
 
 interface SculpturesPageProps {
   sculptures: CloudinaryImage[]
@@ -35,6 +35,7 @@ const SculpturesPage: NextPage<SculpturesPageProps> = ({ sculptures }) => {
                       src={`https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/c_limit,w_500/${sculpture.public_id}.${sculpture.format}`}
                       alt={sculpture.alt}
                       className="w-full h-auto object-cover hover:opacity-90 transition-opacity"
+                      loading="lazy"
                     />
                     {sculpture.title && (
                       <div className="p-3 bg-white dark:bg-gray-900">
@@ -59,13 +60,20 @@ const SculpturesPage: NextPage<SculpturesPageProps> = ({ sculptures }) => {
 
 export default SculpturesPage
 
-export async function getStaticProps() {
-  const sculptures = await getSculptures()
-
-  return {
-    props: {
-      sculptures: sculptures || [],
-    },
-    revalidate: 3600, // Revalidate every hour
+export async function getServerSideProps() {
+  try {
+    const sculptures = await getSculptures()
+    return {
+      props: {
+        sculptures: sculptures || [],
+      },
+    }
+  } catch (error) {
+    console.error('Error fetching sculptures:', error)
+    return {
+      props: {
+        sculptures: [],
+      },
+    }
   }
 }

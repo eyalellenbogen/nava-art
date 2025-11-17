@@ -3,8 +3,8 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import { Heading } from '@/components/atoms/Heading'
 import { Text } from '@/components/atoms/Text'
-import { getPaintings } from '../libs/cloudinary-data'
 import type { CloudinaryImage } from '../libs/cloudinary-data'
+import { getPaintings } from '../libs/cloudinary-data'
 
 interface PaintingsPageProps {
   paintings: CloudinaryImage[]
@@ -35,6 +35,7 @@ const PaintingsPage: NextPage<PaintingsPageProps> = ({ paintings }) => {
                       src={`https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/c_limit,w_500/${painting.public_id}.${painting.format}`}
                       alt={painting.alt}
                       className="w-full h-auto object-cover hover:opacity-90 transition-opacity"
+                      loading="lazy"
                     />
                     {painting.title && (
                       <div className="p-3 bg-white dark:bg-gray-900">
@@ -59,13 +60,20 @@ const PaintingsPage: NextPage<PaintingsPageProps> = ({ paintings }) => {
 
 export default PaintingsPage
 
-export async function getStaticProps() {
-  const paintings = await getPaintings()
-
-  return {
-    props: {
-      paintings: paintings || [],
-    },
-    revalidate: 3600, // Revalidate every hour
+export async function getServerSideProps() {
+  try {
+    const paintings = await getPaintings()
+    return {
+      props: {
+        paintings: paintings || [],
+      },
+    }
+  } catch (error) {
+    console.error('Error fetching paintings:', error)
+    return {
+      props: {
+        paintings: [],
+      },
+    }
   }
 }

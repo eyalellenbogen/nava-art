@@ -1,3 +1,9 @@
+// Disable SSL verification for development/staging environments
+// This is needed because the build environment may have SSL cert issues
+if (process.env.NODE_ENV !== 'production' || process.env.DISABLE_SSL_VERIFICATION === 'true') {
+  process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
+}
+
 import { v2 as cloudinary } from 'cloudinary'
 
 // Configure Cloudinary

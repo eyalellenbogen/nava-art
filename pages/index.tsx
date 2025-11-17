@@ -11,6 +11,8 @@ const Home: NextPage<HomePageProps> = () => {
   return (
     <>
       <Head>
+        <title>Nava Ellenbogen - Art Gallery</title>
+        <meta name="description" content="Nava Ellenbogen's art gallery featuring paintings and sculptures" />
         <meta
           property="og:image"
           content="https://photo-gallery-12.vercel.app/og-image.png"
@@ -22,24 +24,53 @@ const Home: NextPage<HomePageProps> = () => {
       </Head>
       <main>
         <Container>
-          <div className="py-20 text-center">
-            <Heading>Nava Art Gallery</Heading>
-            <Text className='my-10 text-lg' asChild>
-              <p>Welcome to a curated collection of paintings and sculptures. Explore the artworks below.</p>
-            </Text>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-16 max-w-2xl mx-auto">
+          {/* Hero Section */}
+          <div className="py-12 md:py-20">
+            <div className="max-w-3xl mx-auto text-center mb-16">
+              <Heading className="text-5xl md:text-6xl mb-2">Nava Ellenbogen</Heading>
+              <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-400">Art Gallery</p>
+            </div>
+
+            {/* Bio Section */}
+            <div className="max-w-2xl mx-auto space-y-6 text-gray-700 dark:text-gray-300">
+              <Text asChild>
+                <p>
+                  Born in 1955 in Tel Aviv, Nava studied accounting and economics at Tel Aviv University, working professionally as an accountant for several optics companies. For over four decades, art has remained central to her life.
+                </p>
+              </Text>
+
+              <Text asChild>
+                <p>
+                  She studied sculpture, painting, and ceramics under renowned artists including Yehuda Kria, Zeev Chernov, Alex Cherkov, and Yehezkel Yak Cohen. Nava trained in stained glass with Moshe Shamir and explored etching, printing, and relief techniques at the Jaffa Arts Center. She served as Chair of the Ramat Gan and Givatayim Painters and Sculptors Association.
+                </p>
+              </Text>
+
+              <Text asChild>
+                <p>
+                  Her sculptural work—crafted from fired clay with glazes, cast in bronze or polyester—centers on the human figure, characterized by precise, rounded lines that invite touch and evoke intimacy. Her paintings, primarily realistic oil on canvas, reflect a deep sensitivity to form and emotion.
+                </p>
+              </Text>
+
+              <Text asChild>
+                <p>
+                  Nava has participated in numerous exhibitions both in Israel and internationally, including solo shows at Al Ha'agam Gallery in Raanana (2010, 2015) and Holzminden, Germany (2014), as well as group exhibitions at galleries and venues throughout Israel.
+                </p>
+              </Text>
+            </div>
+
+            {/* Gallery Links */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-2xl mx-auto mt-16">
               <Link href="/paintings" legacyBehavior>
-                <a className="p-8 border-2 border-gray-300 rounded-lg hover:border-blue-500 hover:shadow-lg transition-all dark:border-gray-600 dark:hover:border-blue-400">
-                  <h3 className="text-2xl font-bold mb-2">Paintings</h3>
-                  <p className="text-gray-600 dark:text-gray-400">View our collection of paintings</p>
+                <a className="p-8 border-2 border-gray-300 dark:border-gray-700 rounded-lg hover:border-gray-600 dark:hover:border-gray-400 hover:bg-gray-50 dark:hover:bg-gray-900 transition-all">
+                  <h2 className="text-2xl font-bold mb-2">Paintings</h2>
+                  <p className="text-gray-600 dark:text-gray-400">Explore the collection</p>
                 </a>
               </Link>
-              
+
               <Link href="/sculptures" legacyBehavior>
-                <a className="p-8 border-2 border-gray-300 rounded-lg hover:border-blue-500 hover:shadow-lg transition-all dark:border-gray-600 dark:hover:border-blue-400">
-                  <h3 className="text-2xl font-bold mb-2">Sculptures</h3>
-                  <p className="text-gray-600 dark:text-gray-400">View our collection of sculptures</p>
+                <a className="p-8 border-2 border-gray-300 dark:border-gray-700 rounded-lg hover:border-gray-600 dark:hover:border-gray-400 hover:bg-gray-50 dark:hover:bg-gray-900 transition-all">
+                  <h2 className="text-2xl font-bold mb-2">Sculptures</h2>
+                  <p className="text-gray-600 dark:text-gray-400">Explore the collection</p>
                 </a>
               </Link>
             </div>

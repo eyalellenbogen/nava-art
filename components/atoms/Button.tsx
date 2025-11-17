@@ -12,7 +12,7 @@ export function Button({ children, asChild, className, ...props }: ButtonProps) 
 
     return (
         <Comp className={clsx(
-            'py-3 px-4 rounded font-semibold text-black text-sm w-full transition-colors focus:ring-2 ring-white', className
+            'py-3 px-4 rounded font-semibold text-black text-sm w-full transition-colors focus:ring-2 ring-gray-100', className
         )}
             {...props}
         >{children}</Comp >

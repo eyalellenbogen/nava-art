@@ -4,6 +4,7 @@ import Head from 'next/head'
 import Link from 'next/link'
 import { Heading } from '@/components/atoms/Heading'
 import { Text } from '@/components/atoms/Text'
+import CustomLogo from '@/components/CustomLogo'
 
 interface HomePageProps {}
 
@@ -27,8 +28,10 @@ const Home: NextPage<HomePageProps> = () => {
           {/* Hero Section */}
           <div className="py-4 md:py-8">
             <div className="max-w-3xl mx-auto text-center mb-16">
-              <Heading className="text-4xl sm:text-5xl md:text-6xl mb-2">Nava Ellenbogen</Heading>
-              <p className="text-xl md:text-2xl text-gray-700 dark:text-gray-100">Art Gallery</p>
+              <div className="text-gray-900 dark:text-gray-100">
+                <CustomLogo />
+              </div>
+              <p className="text-xl md:text-2xl text-gray-700 dark:text-gray-100 mt-1" style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 300 }}>art gallery</p>
             </div>
 
             {/* Bio Section */}
@@ -47,7 +50,7 @@ const Home: NextPage<HomePageProps> = () => {
 
               <Text asChild>
                 <p>
-                  Her sculptural work—crafted from fired clay with glazes, cast in bronze or polyester—centers on the human figure, characterized by precise, rounded lines that invite touch and evoke intimacy. Her paintings, primarily realistic oil on canvas, reflect a deep sensitivity to form and emotion.
+                  Her sculptural work, crafted from fired clay with glazes, cast in bronze or polyester, centers on the human figure, characterized by precise, rounded lines that invite touch and evoke intimacy. Her paintings, primarily realistic oil on canvas, reflect a deep sensitivity to form and emotion.
                 </p>
               </Text>
 
@@ -62,14 +65,14 @@ const Home: NextPage<HomePageProps> = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-2xl mx-auto mt-16">
               <Link href="/paintings" legacyBehavior>
                 <a className="p-8 border-2 border-gray-300 dark:border-gray-700 rounded-lg hover:bg-gray-800 dark:hover:bg-gray-700 transition-all duration-300 ease-in-out group">
-                  <h2 className="text-2xl font-bold mb-2 text-gray-950 dark:text-white group-hover:text-white">Paintings</h2>
+                  <h2 className="text-2xl font-bold mb-2 text-gray-950 dark:text-gray-100 group-hover:text-gray-100">Paintings</h2>
                   <p className="text-gray-600 dark:text-gray-400 group-hover:text-gray-300">Explore the collection</p>
                 </a>
               </Link>
 
               <Link href="/sculptures" legacyBehavior>
                 <a className="p-8 border-2 border-gray-300 dark:border-gray-700 rounded-lg hover:bg-gray-800 dark:hover:bg-gray-700 transition-all duration-300 ease-in-out group">
-                  <h2 className="text-2xl font-bold mb-2 text-gray-950 dark:text-white group-hover:text-white">Sculptures</h2>
+                  <h2 className="text-2xl font-bold mb-2 text-gray-950 dark:text-gray-100 group-hover:text-gray-100">Sculptures</h2>
                   <p className="text-gray-600 dark:text-gray-400 group-hover:text-gray-300">Explore the collection</p>
                 </a>
               </Link>

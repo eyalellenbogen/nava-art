@@ -69,7 +69,7 @@ const Project: NextPage<ProjectSlugProps> = ({ images, project }) => {
               <p>{project.fullDescription}</p>
             </div>
             <Link
-              className="pointer z-10 mt-6 rounded-lg border bg-black px-3 py-2 text-sm font-semibold text-white transition hover:bg-gray-800 md:mt-4"
+              className="pointer z-10 mt-6 rounded-lg border bg-black px-3 py-2 text-sm font-semibold text-gray-100 transition hover:bg-gray-800 md:mt-4"
               href="/"
             >
               Explore more projects

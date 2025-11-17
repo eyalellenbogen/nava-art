@@ -8,7 +8,7 @@ export default function Logo() {
       width="172"
       height="26"
       xmlns="http://www.w3.org/2000/svg"
-      className="text-white"
+      className="text-gray-100"
     >
       <title id="conf-logo-title-header">
         Next.js Conf logo using a newly designed Next.js logo.

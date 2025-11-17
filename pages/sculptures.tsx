@@ -38,7 +38,7 @@ const SculpturesPage: NextPage<SculpturesPageProps> = ({ sculptures }) => {
                       loading="lazy"
                     />
                     {sculpture.title && (
-                      <div className="p-3 bg-white dark:bg-gray-900">
+                      <div className="p-3 bg-gray-100 dark:bg-gray-900">
                         <h3 className="font-semibold text-sm">{sculpture.title}</h3>
                         {sculpture.year && <p className="text-xs text-gray-600 dark:text-gray-400">{sculpture.year}</p>}
                       </div>

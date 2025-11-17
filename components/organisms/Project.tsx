@@ -16,7 +16,7 @@ export default function Project({size = 'md', children, asChild, className, titl
     return (
         <> 
         <Link
-          className="py-10 group flex flex-col justify-between rounded-sm bg-white p-4 shadow-xl transition-shadow hover:shadow-lg sm:p-6 lg:p-8"
+          className="py-10 group flex flex-col justify-between rounded-sm bg-gray-100 p-4 shadow-xl transition-shadow hover:shadow-lg sm:p-6 lg:p-8"
           href={`/${name}`}
           as={`/${encodeURIComponent(name)}`} 
         >

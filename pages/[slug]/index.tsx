@@ -9,7 +9,8 @@ import Logo from '@/components/Icons/Logo'
 import Modal from '@/components/Modal'
 import type { ImageProps } from '@/utils/types'
 import { useLastViewedPhoto } from '@/utils/useLastViewedPhoto'
-import { getProjectData, getAllProjectIds, ProjectData } from '../../libs/static-data'
+import { getProject, getAllProjects } from '../../libs/cloudinary-data'
+import { ProjectData } from '../../libs/static-data'
 import { getHashString } from '@/utils/getHashString'
 
 interface ProjectSlugProps {
@@ -33,6 +34,17 @@ const Project: NextPage<ProjectSlugProps> = ({ images, project }) => {
     }
   }, [photoId, lastViewedPhoto, setLastViewedPhoto])
 
+  // Defensive: if project is missing, avoid crashing during SSR/dev
+  if (!project) {
+    return (
+      <main className="mx-auto max-w-[1960px] p-4">
+        <div className="py-20 text-center">
+          <h2 className="text-xl font-semibold">Project not found</h2>
+          <p className="mt-2 text-sm text-gray-600">The project data is unavailable. Check Cloudinary connectivity or the project slug.</p>
+        </div>
+      </main>
+    )
+  }
 
   return (
     <>
@@ -82,7 +94,7 @@ const Project: NextPage<ProjectSlugProps> = ({ images, project }) => {
                 style={{ transform: 'translate3d(0, 0, 0)' }}
                 placeholder="blur"
                 blurDataURL={image.blurDataUrl || "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWEREiMxUf/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="}
-                src={`/images/${image.filename}`}
+                src={image.filename}
                 width={720}
                 height={480}
                 sizes="(max-width: 640px) 100vw,
@@ -102,34 +114,42 @@ export default Project
 
 export async function getStaticProps({ params }) {
   const { slug } = params;
-  const project = getProjectData(slug);
-  
-  if (!project) {
-    return {
-      notFound: true,
-    }
+  // Always fetch project data from Cloudinary
+  const cloudProject = await getProject(slug)
+
+  if (!cloudProject) {
+    return { notFound: true }
   }
 
-  // Convert our static data to match the expected ImageProps interface
-  const images: ImageProps[] = project.images.map(image => ({
-    id: image.id,
-    height: image.height,
-    width: image.width,
-    filename: image.filename,
-    alt: image.alt,
-    blurDataUrl: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWEREiMxUf/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
-  }));
+  const images: ImageProps[] = cloudProject.images.map((img) => ({
+    id: img.id,
+    height: img.height,
+    width: img.width,
+    filename: `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/c_limit,w_2000/${img.public_id}.${img.format}`,
+    alt: img.title || img.description || '',
+    blurDataUrl: null,
+  }))
 
   return {
     props: {
       images,
-      project
+      project: {
+        id: cloudProject.id,
+        title: cloudProject.title,
+        smallDescription: cloudProject.smallDescription,
+        fullDescription: cloudProject.fullDescription,
+        images: images as any,
+      },
     },
   }
 }
 
 export async function getStaticPaths() {
-  const paths = getAllProjectIds();
+  const cloudProjects = await getAllProjects()
+  // Filter out paintings and sculptures since they have their own dedicated pages
+  const paths = cloudProjects
+    .filter(p => p.id !== 'paintings' && p.id !== 'sculptures')
+    .map(p => ({ params: { slug: p.id } }))
 
   return {
     paths,

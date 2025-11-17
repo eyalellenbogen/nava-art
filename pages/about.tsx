@@ -95,30 +95,66 @@ export default function About({ about }: aboutPageProps) {
 
 
 export async function getStaticProps() {
-    const entry: MyEntry = await client.getEntry('1nkMIk8qurspwoWVOfunJh');
-    const aboutPage = {
-      heading: entry.fields.heading,
-      description: entry.fields.description,
-      updated_at: format(
-        new Date(entry.sys.updatedAt,),
-        'd MMM yyyy',
-      ),
-      image: {
-        alt:entry.fields.image.fields.title,
-        src: entry.fields.image.fields.file.url,
-        width:entry.fields.image.fields.file.details.image.width,
-        height: entry.fields.image.fields.file.details.image.height
-      },
-      contact: {
-        heading:entry.fields.contact?.fields?.heading,
-        description: entry.fields.contact?.fields?.description,
+    try {
+      const entry: MyEntry = await client.getEntry('1nkMIk8qurspwoWVOfunJh');
+      const aboutPage = {
+        heading: entry.fields.heading,
+        description: entry.fields.description,
+        updated_at: format(
+          new Date(entry.sys.updatedAt,),
+          'd MMM yyyy',
+        ),
+        image: {
+          alt:entry.fields.image.fields.title,
+          src: entry.fields.image.fields.file.url,
+          width:entry.fields.image.fields.file.details.image.width,
+          height: entry.fields.image.fields.file.details.image.height
+        },
+        contact: {
+          heading:entry.fields.contact?.fields?.heading,
+          description: entry.fields.contact?.fields?.description,
+        }
+      };
+    
+      return {
+        props: {
+          about: aboutPage
+        },
       }
-    };
-  
-    return {
-      props: {
-        about: aboutPage
-      },
+    } catch (error) {
+      console.warn('Failed to fetch about page from Contentful, using fallback');
+      // Fallback data when Contentful is not available
+      const aboutPage = {
+        heading: 'About Nava',
+        description: { 
+          nodeType: 'document', 
+          content: [{ 
+            nodeType: 'paragraph', 
+            content: [{ 
+              nodeType: 'text', 
+              value: 'Artist portfolio powered by Cloudinary.' 
+            }] 
+          }] 
+        },
+        updated_at: format(new Date(), 'd MMM yyyy'),
+        image: {
+          alt: 'Nava Art',
+          src: '',
+          width: 400,
+          height: 400
+        },
+        contact: {
+          heading: 'Get in Touch',
+          description: 'Contact us to learn more about the artwork.'
+        }
+      };
+    
+      return {
+        props: {
+          about: aboutPage
+        },
+        revalidate: 3600, // Revalidate every hour
+      }
     }
   }
   

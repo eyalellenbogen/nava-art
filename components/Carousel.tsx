@@ -35,13 +35,15 @@ export default function Carousel({
       >
         
       </button>
-      <Image
-          src={currentPhoto.blurDataUrl}
-          className="pointer-events-none h-full w-full"
-          alt="blurred background"
-          fill
-          priority={true}
-        />
+      {currentPhoto.blurDataUrl && (
+        <Image
+            src={currentPhoto.blurDataUrl}
+            className="pointer-events-none h-full w-full"
+            alt="blurred background"
+            fill
+            priority={true}
+          />
+      )}
       <SharedModal
         index={index}
         changePhotoId={changePhotoId}

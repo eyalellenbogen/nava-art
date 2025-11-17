@@ -3,7 +3,7 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import Carousel from '@/components/Carousel'
 import type { ImageProps } from '@/utils/types'
-import { getPortfolioData, getProjectData } from '../../../libs/static-data'
+import { getAllProjects, getProject } from '../../../libs/cloudinary-data'
 
 interface PhotoIdProps {
   currentPhoto: ImageProps;
@@ -20,7 +20,7 @@ const PhotoId: NextPage<PhotoIdProps> = ({ currentPhoto }) => {
     return <div>Photo not found.</div>;
   }
   
-  const currentPhotoUrl = `/images/${currentPhoto.filename}`;
+  const currentPhotoUrl = currentPhoto.filename;
 
   return (
     <>
@@ -38,17 +38,18 @@ const PhotoId: NextPage<PhotoIdProps> = ({ currentPhoto }) => {
 export default PhotoId
 
 export async function getStaticPaths() {
-  const portfolioData = getPortfolioData();
-  const projects = portfolioData.projects;
-
-  const totalPaths = projects.reduce((paths, project) => {
-    const numAssets = project.images.length;
-    for (let i = 0; i < numAssets; i++) {
-      const photoId = project.images[i].id.toString();
-      paths = paths.concat({ params: { slug: project.id, photoId } });
-    }
-    return paths;
-  }, []);
+  const cloudProjects = await getAllProjects()
+  // Filter out paintings and sculptures since they have their own dedicated pages
+  const totalPaths = cloudProjects
+    .filter(p => p.id !== 'paintings' && p.id !== 'sculptures')
+    .reduce((paths, project) => {
+      const numAssets = project.images.length;
+      for (let i = 0; i < numAssets; i++) {
+        const photoId = project.images[i].id.toString();
+        paths = paths.concat({ params: { slug: project.id, photoId } });
+      }
+      return paths;
+    }, []);
 
   return {
     paths: totalPaths,
@@ -59,27 +60,21 @@ export async function getStaticPaths() {
 export const getStaticProps: GetStaticProps = async (context) => {
   const { params } = context;
   const { slug, photoId } = params;
-  const project = getProjectData(slug as string);
-  
-  if (!project) {
-    return {
-      notFound: true,
-    }
-  }
 
-  const currentPhoto = project.images.find((img) => img.id.toString() === photoId);
-  
-  if (!currentPhoto) {
-    return {
-      notFound: true,
-    }
-  }
+  const project = await getProject(slug as string)
+  if (!project) return { notFound: true }
 
-  // Add blur data URL for the photo
+  const current = project.images.find((img) => img.id.toString() === photoId)
+  if (!current) return { notFound: true }
+
   const photoWithBlur: ImageProps = {
-    ...currentPhoto,
-    blurDataUrl: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWEREiMxUf/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
-  };
+    id: current.id,
+    filename: `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/c_limit,w_2000/${current.public_id}.${current.format}`,
+    width: current.width,
+    height: current.height,
+    alt: current.title || current.description || '',
+    blurDataUrl: null,
+  }
 
   return {
     props: {

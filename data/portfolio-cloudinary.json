@@ -1,0 +1,50 @@
+{
+  "portfolioPage": {
+    "heading": "Nava Art Gallery",
+    "description": "A curated collection of photography projects showcasing different themes and styles."
+  },
+  "projects": [
+    {
+      "id": "nature-photography",
+      "title": "Nature Photography",
+      "smallDescription": "Capturing the beauty of natural landscapes and wildlife",
+      "fullDescription": "This collection features stunning nature photography from various locations around the world.",
+      "cloudinaryFolder": "nava-co-il/nature-photography",
+      "images": [
+        {
+          "id": 1,
+          "public_id": "nava-co-il/nature-photography/nature-1",
+          "format": "jpg",
+          "width": 1920,
+          "height": 1280,
+          "alt": "Mountain landscape at sunrise"
+        },
+        {
+          "id": 2,
+          "public_id": "nava-co-il/nature-photography/nature-2",
+          "format": "jpg",
+          "width": 1920,
+          "height": 1280,
+          "alt": "Forest path with sunlight"
+        }
+      ]
+    },
+    {
+      "id": "urban-scenes",
+      "title": "Urban Scenes",
+      "smallDescription": "Street photography and city life moments",
+      "fullDescription": "Urban photography that captures the energy and rhythm of city life.",
+      "cloudinaryFolder": "nava-co-il/urban-scenes",
+      "images": [
+        {
+          "id": 3,
+          "public_id": "nava-co-il/urban-scenes/urban-1",
+          "format": "jpg",
+          "width": 1920,
+          "height": 1280,
+          "alt": "City skyline at night"
+        }
+      ]
+    }
+  ]
+}

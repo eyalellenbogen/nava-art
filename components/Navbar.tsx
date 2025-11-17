@@ -14,15 +14,19 @@ export default function Navbar(props) {
 
   const leftmenu = [
     {
-      label: "Photos",
+      label: "Home",
       href: "/",
       external: false
     },
     {
-      label: "About",
-      href: "/about",
+      label: "Paintings",
+      href: "/paintings",
       external: false
-
+    },
+    {
+      label: "Sculptures",
+      href: "/sculptures",
+      external: false
     },
   ];
   const rightmenu = !socialMediaLinks ? [] : socialMediaLinks;

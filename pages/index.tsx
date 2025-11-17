@@ -1,27 +1,13 @@
 import Container from '@/components/container'
-import Navbar from '@/components/Navbar'
-import Project from '@/components/organisms/Project'
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import Image from 'next/image'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
 import { Heading } from '@/components/atoms/Heading'
 import { Text } from '@/components/atoms/Text'
-import { getPortfolioData, ProjectData } from '../libs/static-data'
 
-interface PortfolioPageData {
-  heading: string;
-  description: string;
-}
+interface HomePageProps {}
 
-interface portfolioPageProps {
-  portfolioPage: PortfolioPageData;
-  projects: ProjectData[];
-}
-
-
-const Home: NextPage<portfolioPageProps> = ({ portfolioPage, projects }) => {
+const Home: NextPage<HomePageProps> = () => {
   return (
     <>
       <Head>
@@ -35,16 +21,29 @@ const Home: NextPage<portfolioPageProps> = ({ portfolioPage, projects }) => {
         />
       </Head>
       <main>
-      <Container>
-        <Heading>{portfolioPage?.heading}</Heading>
-        <Text className='my-10' asChild><p> {portfolioPage?.description}</p></Text>
-        <div className="grid grid-col-1 md:grid-cols-3 gap-4">
-        {
-          projects && projects.length > 0 && projects.map((project, index) => (
-              <Project key={index} title={project.title} description={project.smallDescription} name={project.id}/>
-          ))
-        }
-        </div>
+        <Container>
+          <div className="py-20 text-center">
+            <Heading>Nava Art Gallery</Heading>
+            <Text className='my-10 text-lg' asChild>
+              <p>Welcome to a curated collection of paintings and sculptures. Explore the artworks below.</p>
+            </Text>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-16 max-w-2xl mx-auto">
+              <Link href="/paintings" legacyBehavior>
+                <a className="p-8 border-2 border-gray-300 rounded-lg hover:border-blue-500 hover:shadow-lg transition-all dark:border-gray-600 dark:hover:border-blue-400">
+                  <h3 className="text-2xl font-bold mb-2">Paintings</h3>
+                  <p className="text-gray-600 dark:text-gray-400">View our collection of paintings</p>
+                </a>
+              </Link>
+              
+              <Link href="/sculptures" legacyBehavior>
+                <a className="p-8 border-2 border-gray-300 rounded-lg hover:border-blue-500 hover:shadow-lg transition-all dark:border-gray-600 dark:hover:border-blue-400">
+                  <h3 className="text-2xl font-bold mb-2">Sculptures</h3>
+                  <p className="text-gray-600 dark:text-gray-400">View our collection of sculptures</p>
+                </a>
+              </Link>
+            </div>
+          </div>
         </Container>
       </main>
     </>
@@ -54,13 +53,9 @@ const Home: NextPage<portfolioPageProps> = ({ portfolioPage, projects }) => {
 export default Home
 
 export async function getStaticProps() {
-  const portfolioData = getPortfolioData()
-  
   return {
-    props: {
-      portfolioPage: portfolioData.portfolioPage,
-      projects: portfolioData.projects
-    },
+    props: {},
+    revalidate: 3600,
   }
 }
 

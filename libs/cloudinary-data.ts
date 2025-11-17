@@ -5,6 +5,12 @@ if (process.env.NODE_ENV !== 'production' || process.env.DISABLE_SSL_VERIFICATIO
 }
 
 import { v2 as cloudinary } from 'cloudinary'
+import https from 'https'
+
+// Create an HTTPS agent that handles SSL issues
+const httpsAgent = new https.Agent({
+  rejectUnauthorized: false,
+})
 
 // Configure Cloudinary
 cloudinary.config({
@@ -45,6 +51,12 @@ export interface CloudinaryProject {
 // Fetch all images from a specific folder with metadata
 export async function getImagesFromFolder(folderPath: string): Promise<CloudinaryImage[]> {
   try {
+    // Debug logging
+    console.log(`[Cloudinary] Attempting to fetch images from: ${folderPath}`)
+    console.log(`[Cloudinary] Cloud Name: ${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}`)
+    console.log(`[Cloudinary] API Key present: ${!!process.env.CLOUDINARY_API_KEY}`)
+    console.log(`[Cloudinary] API Secret present: ${!!process.env.CLOUDINARY_API_SECRET}`)
+    
     const result = await cloudinary.search
       .expression(`folder:${folderPath}/*`)
       .with_field('context')
@@ -52,7 +64,9 @@ export async function getImagesFromFolder(folderPath: string): Promise<Cloudinar
       .max_results(100)
       .execute()
 
-    return result.resources.map((resource: any, index: number) => ({
+    console.log(`[Cloudinary] Search result - Found ${result.resources?.length || 0} resources`)
+
+    const images = result.resources?.map((resource: any, index: number) => ({
       id: index + 1,
       public_id: resource.public_id,
       format: resource.format,
@@ -65,9 +79,16 @@ export async function getImagesFromFolder(folderPath: string): Promise<Cloudinar
       year: resource.context?.year || '',
       dimensions: resource.context?.dimensions || '',
       tags: resource.tags || [],
-    }))
+    })) || []
+
+    console.log(`[Cloudinary] Returning ${images.length} processed images`)
+    return images
   } catch (error) {
-    console.error('Error fetching images from Cloudinary:', error)
+    console.error('[Cloudinary] Error fetching images from Cloudinary:', error)
+    if (error instanceof Error) {
+      console.error('[Cloudinary] Error message:', error.message)
+      console.error('[Cloudinary] Error stack:', error.stack)
+    }
     return []
   }
 }

@@ -46,9 +46,9 @@ export default function Navbar(props) {
                 <div className="flex-col items-center justify-start order-1 hidden w-full md:flex md:flex-row md:w-auto md:order-none md:flex-1">
                   {leftmenu.map((item, index) => (
                     <Link href={item.href} key={index} legacyBehavior>
-                      <a className={`pr-5 py-2 text-sm font-medium  dark:text-gray-400 hover:text-blue-500 ${currentRoute === item.href 
-                    ? "text-blue-500" 
-                    : "text-gray-500"}`} >
+                      <a className={`pr-5 py-2 text-sm font-medium hover:text-blue-500 dark:hover:text-blue-400 ${currentRoute === item.href 
+                    ? "text-blue-500 dark:text-blue-400" 
+                    : "text-gray-600 dark:text-gray-400"}`} >
                         {item.label}
                       </a>
                     </Link>
@@ -82,9 +82,9 @@ export default function Navbar(props) {
                 <div className="flex-col items-center justify-start order-2 hidden w-full md:flex md:flex-row md:w-auto md:flex-1 md:order-none">
                         {rightmenu.map((item, index) => (
                     <Link href={item.href} key={index} legacyBehavior>
-                      <a className={`pr-5 py-2 text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-blue-500 ${currentRoute === item.href 
-                    ? "text-blue-500" 
-                    : "text-gray-500"}`} >
+                      <a className={`pr-5 py-2 text-sm font-medium hover:text-blue-500 dark:hover:text-blue-400 ${currentRoute === item.href 
+                    ? "text-blue-500 dark:text-blue-400" 
+                    : "text-gray-600 dark:text-gray-400"}`} >
                         {item.label}
                       </a>
                     </Link>
@@ -95,20 +95,22 @@ export default function Navbar(props) {
                 </div>
               </div>
               <Disclosure.Panel>
-                <div className="flex flex-col items-center justify-start order-2 w-full md:hidden">
-                  {mobilemenu.map((item, index) => (
-                    <Link href={item.href} key={index} legacyBehavior>
-                      <a
-                        className={`pr-5 py-2 text-sm font-medium dark:text-gray-400 hover:text-blue-500 ${currentRoute === item.href 
-                          ? "text-blue-500" 
-                          : "text-gray-600"}`}
-                        target={item.external ? "_blank" : ""}
-                        rel={item.external ? "noopener" : ""}>
-                        {item.label}
-                      </a>
-                    </Link>
-                  ))}
-                  <div className="mt-4">
+                <div className="flex flex-col order-2 w-full md:hidden">
+                  <div className="flex flex-col items-end">
+                    {mobilemenu.map((item, index) => (
+                      <Link href={item.href} key={index} legacyBehavior>
+                        <a
+                          className={`pr-4 py-2 text-sm font-medium hover:text-blue-500 dark:hover:text-blue-400 ${currentRoute === item.href 
+                            ? "text-blue-500 dark:text-blue-400" 
+                            : "text-gray-600 dark:text-gray-400"}`}
+                          target={item.external ? "_blank" : ""}
+                          rel={item.external ? "noopener" : ""}>
+                          {item.label}
+                        </a>
+                      </Link>
+                    ))}
+                  </div>
+                  <div className="flex justify-end pr-4 py-2 w-full border-t border-gray-200 dark:border-gray-800 mt-2">
                     <ThemeSwitcher />
                   </div>
                 </div>

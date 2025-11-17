@@ -27,7 +27,7 @@ const Home: NextPage<HomePageProps> = () => {
           {/* Hero Section */}
           <div className="py-4 md:py-8">
             <div className="max-w-3xl mx-auto text-center mb-16">
-              <Heading className="text-5xl md:text-6xl mb-2">Nava Ellenbogen</Heading>
+              <Heading className="text-4xl sm:text-5xl md:text-6xl mb-2">Nava Ellenbogen</Heading>
               <p className="text-xl md:text-2xl text-gray-700 dark:text-gray-100">Art Gallery</p>
             </div>
 

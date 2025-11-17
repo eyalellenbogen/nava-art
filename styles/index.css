@@ -3,10 +3,8 @@
 @tailwind utilities;
 
 @layer base {
-  @media (prefers-color-scheme: dark) {
-    body {
-      @apply bg-gray-950 text-white;
-    }
+  body {
+    @apply bg-white dark:bg-gray-950 text-gray-900 dark:text-white transition-colors;
   }
 }
 

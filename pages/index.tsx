@@ -25,14 +25,14 @@ const Home: NextPage<HomePageProps> = () => {
       <main>
         <Container>
           {/* Hero Section */}
-          <div className="py-12 md:py-20">
+          <div className="py-4 md:py-8">
             <div className="max-w-3xl mx-auto text-center mb-16">
               <Heading className="text-5xl md:text-6xl mb-2">Nava Ellenbogen</Heading>
-              <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-400">Art Gallery</p>
+              <p className="text-xl md:text-2xl text-gray-700 dark:text-gray-300">Art Gallery</p>
             </div>
 
             {/* Bio Section */}
-            <div className="max-w-2xl mx-auto space-y-6 text-gray-700 dark:text-gray-300">
+            <div className="max-w-2xl mx-auto space-y-6 text-gray-900 dark:text-gray-100">
               <Text asChild>
                 <p>
                   Born in 1955 in Tel Aviv, Nava studied accounting and economics at Tel Aviv University, working professionally as an accountant for several optics companies. For over four decades, art has remained central to her life.
@@ -61,16 +61,16 @@ const Home: NextPage<HomePageProps> = () => {
             {/* Gallery Links */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-2xl mx-auto mt-16">
               <Link href="/paintings" legacyBehavior>
-                <a className="p-8 border-2 border-gray-300 dark:border-gray-700 rounded-lg hover:border-gray-600 dark:hover:border-gray-400 hover:bg-gray-50 dark:hover:bg-gray-900 transition-all">
-                  <h2 className="text-2xl font-bold mb-2">Paintings</h2>
-                  <p className="text-gray-600 dark:text-gray-400">Explore the collection</p>
+                <a className="p-8 border-2 border-gray-300 dark:border-gray-700 rounded-lg hover:bg-gray-800 dark:hover:bg-gray-700 transition-all duration-300 ease-in-out group">
+                  <h2 className="text-2xl font-bold mb-2 text-gray-950 dark:text-white group-hover:text-white">Paintings</h2>
+                  <p className="text-gray-600 dark:text-gray-400 group-hover:text-gray-300">Explore the collection</p>
                 </a>
               </Link>
 
               <Link href="/sculptures" legacyBehavior>
-                <a className="p-8 border-2 border-gray-300 dark:border-gray-700 rounded-lg hover:border-gray-600 dark:hover:border-gray-400 hover:bg-gray-50 dark:hover:bg-gray-900 transition-all">
-                  <h2 className="text-2xl font-bold mb-2">Sculptures</h2>
-                  <p className="text-gray-600 dark:text-gray-400">Explore the collection</p>
+                <a className="p-8 border-2 border-gray-300 dark:border-gray-700 rounded-lg hover:bg-gray-800 dark:hover:bg-gray-700 transition-all duration-300 ease-in-out group">
+                  <h2 className="text-2xl font-bold mb-2 text-gray-950 dark:text-white group-hover:text-white">Sculptures</h2>
+                  <p className="text-gray-600 dark:text-gray-400 group-hover:text-gray-300">Explore the collection</p>
                 </a>
               </Link>
             </div>

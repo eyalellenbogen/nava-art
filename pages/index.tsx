@@ -28,11 +28,11 @@ const Home: NextPage<HomePageProps> = () => {
           <div className="py-4 md:py-8">
             <div className="max-w-3xl mx-auto text-center mb-16">
               <Heading className="text-5xl md:text-6xl mb-2">Nava Ellenbogen</Heading>
-              <p className="text-xl md:text-2xl text-gray-700 dark:text-gray-300">Art Gallery</p>
+              <p className="text-xl md:text-2xl text-gray-700 dark:text-gray-100">Art Gallery</p>
             </div>
 
             {/* Bio Section */}
-            <div className="max-w-2xl mx-auto space-y-6 text-gray-900 dark:text-gray-100">
+            <div className="max-w-2xl mx-auto space-y-6 text-gray-900 dark:text-gray-200">
               <Text asChild>
                 <p>
                   Born in 1955 in Tel Aviv, Nava studied accounting and economics at Tel Aviv University, working professionally as an accountant for several optics companies. For over four decades, art has remained central to her life.

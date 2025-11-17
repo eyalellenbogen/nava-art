@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import { Heading } from "./atoms/Heading";
 import useSWR from "swr";
 import { getSocialMediaLinks } from "@/utils/getSocialMediaLinks";
+import ThemeSwitcher from "./ThemeSwitcher";
 
 
 export default function Navbar(props) {
@@ -89,6 +90,9 @@ export default function Navbar(props) {
                     </Link>
                   ))}
                 </div>
+                <div className="hidden md:flex md:items-center">
+                  <ThemeSwitcher />
+                </div>
               </div>
               <Disclosure.Panel>
                 <div className="flex flex-col items-center justify-start order-2 w-full md:hidden">
@@ -104,6 +108,9 @@ export default function Navbar(props) {
                       </a>
                     </Link>
                   ))}
+                  <div className="mt-4">
+                    <ThemeSwitcher />
+                  </div>
                 </div>
               </Disclosure.Panel>
             </>
